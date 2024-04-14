@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Matematikai Gyakorlatok Nevekkel</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        td, th { border: 1px solid #dddddd; text-align: left; padding: 8px; }
+        th { background-color: #f2f2f2; }
+        th:nth-child(1), th:nth-child(2) { width: 30%; }
+        th:nth-child(3) { width: 40%; }
+    </style>
+</head>
+<body>
+    <h1>Matematikai Gyakorlatok Nevekkel</h1>
+    <div id="settings">
+        <label for="maxValue">Maximális érték: </label>
+        <input type="number" id="maxValue" value="100">
+        <label for="numNames">Nevek száma: </label>
+        <input type="number" id="numNames" value="15">
+        <button onclick="generateNames()">Nevek Generálása</button>
+    </div>
+    <table id="namesTable">
+        <thead>
+            <tr>
+                <th>Név</th>
+                <th>Betűk Értékei</th>
+                <th>Összegzés (kitöltendő)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- A táblázat sorai itt jelennek meg -->
+        </tbody>
+    </table>
+    <button onclick="window.print()">Nyomtatás</button>
+
+    <script>
+const names = ["Bence", "Máté", "Levente", "Zsófia", "Hanna", "Anna", "László", "Krisztina", "Gergő", "Nóra", "Péter", "Lili", "Szabolcs", "Eszter", "Tibor",
+"Viktória", "Orsolya", "Ádám", "Tamás", "Dávid", "Sára", "Réka", "Emese", "Fanni", "Melinda", "Kata", "Gábor", "Miklós", "János", "Zoltán", "Erzsébet",
+"Marianna", "Ilona", "Klára", "Boglárka", "István", "Csaba", "Balázs", "Attila", "Lajos", "Áron", "Zsolt", "Olivér", "Marcell", "Noémi", "Beáta", "Barbara",
+"Erika", "Veronika", "Anita", "Tünde", "Krisztián", "Márton", "Roland", "Bálint", "Bertalan", "Dániel", "Ferenc", "Géza", "Henrik", "Károly", "László",
+"Leopold", "Márk", "Mihály", "Nándor", "Nikolás", "Oszkár", "Pál", "Róbert", "Sándor", "Szilárd", "Tiborc", "Vilmos", "Zalán", "Zsigmond", "Borbála",
+"Csilla", "Dorottya", "Eszter", "Gizella", "Irén", "Jolán", "Katalin", "Margit", "Nikoletta", "Olga", "Patrícia", "Rita", "Szilvia", "Teodóra", "Vanda",
+"Agnes", "Bettina", "Cecília", "Doris", "Edina", "Flóra", "Gréta", "Helga", "Ida", "Judit", "Kornélia", "Léda", "Mira", "Nóra", "Odett", "Paula", "Renáta",
+"Sarolta", "Tímea", "Ursula", "Vilma", "Zita", "Kálmán", "András", "Antal", "Arnold", "Artúr", "Barnabás", "Benjámin", "Bertold", "Béla", "Botond", "Csongor",
+"Dezső", "Elemér", "Előd", "Endre", "Etele", "Farkas", "Frigyes", "Gellért", "György", "Gyula", "Hunor", "Imre", "Jenő", "Kende", "Kornél", "Kristóf",
+"Kunó", "Levente", "Menyhért", "Miksa", "Milán", "Ödön", "Örs", "Ottó", "Rezső", "Richárd", "Soma", "Soma", "Tivadar", "Vencel", "Viola", "Zente",
+"Zétény", "Ábel", "Ágoston", "Benedek", "Bonifác", "Ciprián", "Csanád", "Dénes", "Elek", "Emeric", "Fülöp", "Gusztáv", "Huba", "Ignác", "Iván", "Jácint",
+"Jakab", "József", "Károly", "Kelemen", "Kolos", "Konrád", "Krisztián", "Lőrinc", "Máté", "Mózes", "Ottó", "Örs", "Pongrác", "Sebestyén", "Simon", "Szervác",
+"Tamás", "Tódor", "Töhötöm", "Vince", "Zoltán", "Zsombor", "Adél", "Alida", "Alma", "Ágnes", "Ágota", "Apollónia", "Aranka", "Aurélia", "Bianka", "Blanka",
+"Cecília", "Cilike", "Csenge", "Dalma", "Dóra", "Etelka", "Fruzsina", "Gitta", "Gyöngyi", "Hajnalka", "Ibolya", "Irma", "Izabella", "Jázmin", "Jolán", "Julianna",
+"Kamilla", "Karola", "Kincső", "Kitti", "Liliána", "Liza", "Luca", "Magdolna", "Margó", "Mirtill", "Natália", "Nikolett", "Olivér", "Piroska", "Rozália", "Sára",
+"Szabina", "Szandra", "Szidónia", "Szilvia", "Terézia", "Tímea", "Vilhelmina", "Zsanett", "Zsóka", "Zsuzsanna"];
+
+function generateNames() {
+    const numNames = document.getElementById("numNames").value;
+    const maxValue = document.getElementById("maxValue").value;
+    const tableBody = document.getElementById("namesTable").getElementsByTagName("tbody")[0];
+    tableBody.innerHTML = ""; // Táblázat törlése az új generáláshoz
+
+    for (let i = 0; i < numNames; i++) {
+        const name = names[Math.floor(Math.random() * names.length)];
+        let lettersValue = {};
+        let letterValuesText = "";
+        let tempSum = 0;
+
+        // Véletlenszerű értékek generálása minden betűhöz 1 és 20 között
+        for (let char of name.toUpperCase()) {
+            if (!lettersValue[char]) {
+                lettersValue[char] = Math.floor(Math.random() * 20) + 1;
+                tempSum += lettersValue[char];
+            }
+        }
+
+        // Csak azokat a neveket adjuk hozzá, ahol az összeg kisebb mint a max érték
+        if (tempSum <= maxValue) {
+            let row = tableBody.insertRow();
+            row.insertCell(0).innerText = name;
+            Object.entries(lettersValue).forEach(([char, value]) => {
+                letterValuesText += `${char}=${value}, `;
+            });
+            row.insertCell(1).innerText = letterValuesText.slice(0, -2);
+            row.insertCell(2).innerText = "";  // Üres cella az összegzéshez
+        }
+    }
+}
+
+    </script>
+</body>
+</html>
